@@ -12,8 +12,7 @@ const Admin = () => {
     const storedBooks = JSON.parse(localStorage.getItem('books')) || [
       { id: 1, title: 'Book 1', author: 'Author 1', category: 'Fiction', filename: 'book1.pdf' },
     ];
-    setUsers(storedUsers);
-    setBooks(storedBooks);
+    setUsers(storedUsers);    setBooks(storedBooks);
   }, []);
 
   // Save data to local storage whenever users or books change

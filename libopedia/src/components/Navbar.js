@@ -3,89 +3,77 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaBookmark } from 'react-icons/fa';
 
 const Navbar = () => {
-  const [bookmarkCount, setBookmarkCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
-  const navigate = useNavigate(); // Hook to programmatically navigate
+    const [bookmarkCount, setBookmarkCount] = useState(0);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
-  // Function to update the bookmark count from localStorage
-  const updateBookmarkCount = useCallback(() => {
-    const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-    setBookmarkCount(bookmarks.length);
-  }, []);
+    const updateBookmarkCount = useCallback(() => {
+        const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        setBookmarkCount(bookmarks.length);
+    }, []);
 
-  // Handle storage change events to sync bookmark count across tabs
-  const handleStorageChange = useCallback(
-    (event) => {
-      if (event.key === 'bookmarks') {
+    const handleStorageChange = useCallback(() => {
         updateBookmarkCount();
-      }
-    },
-    [updateBookmarkCount]
-  );
+    }, [updateBookmarkCount]);
 
-  useEffect(() => {
-    // Initial update of bookmark count
-    updateBookmarkCount();
+    useEffect(() => {
+        updateBookmarkCount();
+        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('bookmarkUpdate', handleStorageChange);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('bookmarkUpdate', handleStorageChange);
+        };
+    }, [handleStorageChange, updateBookmarkCount]);
 
-    // Add event listener for storage changes
-    window.addEventListener('storage', handleStorageChange);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+        }
     };
-  }, [handleStorageChange, updateBookmarkCount]);
 
-  // Function to handle search button click
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
-    }
-  };
+    return (
+        <>
+            <div className="top-bar"></div>
+            <nav className="navbar">
+                <div className="logo">
+                    <Link to="/">
+                        <img src="/assets/Logo/pngl.png" alt="Libopedia Logo" />
+                        <span>LIBOPEDIA</span>
+                    </Link>
+                </div>
 
-  return (
-    <>
-      <div className="top-bar"></div>
+                <div className="search-container">
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search for books..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button
+                        className="search-button"
+                        aria-label="Search"
+                        onClick={handleSearch}
+                    >
+                        <FaSearch />
+                    </button>
+                </div>
 
-      <nav className="navbar">
-        <div className="logo">
-          <Link to="/">
-            <img src="/assets/Logo/pngl.png" alt="Libopedia Logo" />
-            <span>LIBOPEDIA</span>
-          </Link>
-        </div>
-
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search for books..."
-            value={searchQuery} // Bind input value to state
-            onChange={(e) => setSearchQuery(e.target.value)} // Update state on input change
-          />
-          <button
-            className="search-button"
-            aria-label="Search"
-            onClick={handleSearch} // Call handleSearch on button click
-          >
-            <FaSearch />
-          </button>
-        </div>
-
-        <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/bookmarks" className="bookmark-btn" aria-label="Bookmarks">
-              <FaBookmark />
-              <span className="bookmark-count">({bookmarkCount})</span>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </>
-  );
+                <ul className="nav-links">
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/bookmarks" className="bookmark-btn" aria-label="Bookmarks">
+                            <FaBookmark />
+                            <span className="bookmark-count">({bookmarkCount})</span>
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+        </>
+    );
 };
 
 export default Navbar;

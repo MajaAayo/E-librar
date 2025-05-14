@@ -331,6 +331,7 @@ const booksData = [
 const normalizeGenre = (genre) => {
   return genre.toLowerCase().trim();
 };
+
 const Explore = () => {
   const [books] = useState(booksData);
   const [filteredBooks, setFilteredBooks] = useState(booksData);
@@ -340,24 +341,14 @@ const Explore = () => {
     const genre = event.target.value;
     setSelectedGenre(genre);
 
-   console.log("Selected Genre:", genre); // Debug: Log the selected genre
-
     if (genre === 'all') {
       setFilteredBooks(books);
     } else {
-      const filtered = books.filter((book) => {
-        const normalizedBookGenre = normalizeGenre(book.genre);
-        const normalizedFilterGenre = genre.toLowerCase();
-        const matches = normalizedBookGenre.includes(normalizedFilterGenre);
-        console.log(
-          `Book: ${book.title}, Genre: ${book.genre}, Normalized: ${normalizedBookGenre}, Matches: ${matches}`
-        ); // Debug: Log each book's genre and match result
-        return matches;
-      });
+      const filtered = books.filter((book) =>
+        normalizeGenre(book.genre).includes(normalizeGenre(genre))
+      );
       setFilteredBooks(filtered);
     }
-
-    console.log("Filtered Books:", filteredBooks); // Debug: Log the filtered books
   };
 
   return (
@@ -373,7 +364,7 @@ const Explore = () => {
             aria-label="Filter books by genre"
           >
             <option value="all">All Genres</option>
-            <option value="romantic_drama">Romantic drama with Sci-fi</option>
+            <option value="romantic drama with sci-fi">Romantic drama with Sci-fi</option>
             <option value="fiction">Fiction</option>
             <option value="non-fiction">Non-fiction</option>
             <option value="romance">Romance</option>
@@ -383,12 +374,14 @@ const Explore = () => {
             <option value="science">Science</option>
             <option value="biography">Biography</option>
             <option value="self-help">Self-help</option>
+            <option value="mystery">Mystery</option>
+            <option value="historical fiction">Historical Fiction</option>
           </select>
         </div>
       </aside>
       <main className="book-grid">
         {filteredBooks.map((book, index) => (
-          <BookCard key={index} book={book} />
+          <BookCard key={book.title} book={book} />
         ))}
       </main>
     </div>

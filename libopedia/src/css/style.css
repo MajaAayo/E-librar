@@ -163,24 +163,6 @@ ul {
   color: #4A90E2;
 }
 
-/* Sign Up Button */
-.sign-up-btn {
-  display: inline-block;
-  background-color: #FF6B6B;
-  color: #ffffff;
-  padding: 12px 18px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 1.1em;
-  transition: all 0.3s ease;
-  border: 3px solid #FF6B6B;
-}
-
-.sign-up-btn:hover {
-  background-color: #ffffff;
-  color: #FF6B6B;
-}
-
 /* Bookmark Button */
 .bookmark-btn {
   position: relative;
@@ -204,12 +186,7 @@ ul {
   justify-content: center;
 }
 
-/* Profile Button */
-.profile-btn {
-  color: #333;
-  font-size: 1.2em;
-  text-decoration: none;
-}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -296,26 +273,26 @@ ul {
 }
 
 .buttons a:first-child {
-  background-color: #4A90E2; /* Primary - Slate Blue */
-  color: #FFFFFF; /* Background - Pure White */
+  background-color: #4A90E2; 
+  color: #FFFFFF; 
   border: 1px solid #4A90E2;
 }
 
 .buttons a:first-child:hover {
-  background-color: #3a7bc8; /* Darker shade of primary */
+  background-color: #3a7bc8; 
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
 }
 
 .buttons a:last-child {
-  border: 1px solid #4A90E2; /* Primary - Slate Blue */
-  color: #2E2E2E; /* Text - Dark Charcoal */
-  background-color: #FFFFFF; /* Background - Pure White */
+  border: 1px solid #4A90E2;
+  color: #2E2E2E;
+  background-color: #FFFFFF; 
 }
 
 .buttons a:last-child:hover {
-  background-color: #4A90E2; /* Primary - Slate Blue */
-  color: #FFFFFF; /* Background - Pure White */
+  background-color: #4A90E2; 
+  color: #FFFFFF;  
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
 }
@@ -564,14 +541,20 @@ ul {
 }
 
 .book-card {
-  position: relative;
-  background-color: #F2F2F2; /* Secondary: Light Gray */
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures button stays at the bottom */
+  align-items: center;
   padding: 15px;
+  min-height: 350px; 
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
   text-align: center;
-  transition: transform 0.3s ease;
+  width: 200px; /* Adjust width as needed */
+  margin-bottom: 10px; /* Consistent bottom margin, as requested earlier */
 }
+
 
 .book-card:hover {
   transform: translateY(-5px);
@@ -595,7 +578,7 @@ ul {
 
 .book-card h3 {
   font-size: 1.2em;
-  margin: 10px 0;
+    margin: 10px 0 5px 0;
   color: #2E2E2E; /* Text: Dark Charcoal */
 }
 
@@ -631,7 +614,7 @@ ul {
   background-color: #4A90E2; /* Primary: Slate Blue */
   color: #FFFFFF; /* Background: Pure White */
   transition: background-color 0.3s ease;
-  width: 50%; /* Full width for consistent button size */
+  width: 100%; /* Full width for consistent button size */
   margin: 0 auto; /* Center the button */
 }
 
@@ -649,7 +632,7 @@ background-color: #f0e9e9;
     outline: none;
     position: absolute;
     top: -10px;
-    right: 10px;
+    right: -10px;
     margin: 0;
     padding: 0.5em;
     width: 2.5em;
@@ -681,7 +664,6 @@ background-color: #f0e9e9;
 .view-details-button:hover {
   background-color: #357ABD; /* Darker Slate Blue */
 }
-
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -697,8 +679,8 @@ background-color: #f0e9e9;
 }
 
 .book-details-modal {
-  background: #F2F2F2; /* Secondary: Light Gray */
-  padding: 30px;
+  background: #F2F2F2;
+  padding: 40px;
   border-radius: 10px;
   max-width: 500px;
   width: 90%;
@@ -707,6 +689,29 @@ background-color: #f0e9e9;
   animation: fadeIn 0.3s ease-out;
   overflow-y: auto;
   max-height: 80vh;
+  position: relative;
+}
+
+.modal-close-symbol {
+   background-color: #e6dede;
+  border: none;
+  border-radius: 50%; /* Changed to 50% for consistency with circular shapes */
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 30px; /* Reduced to fit better inside circle */
+  color: #000000; /* Changed to white for contrast against dark background */
+  width: 40px; /* Fixed width for circle */
+  height: 40px; /* Fixed height for circle */
+  display: flex; /* Center the × */
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-close-symbol:hover {
+  color: #FF6B6B;
 }
 
 .modal-book-cover {
@@ -718,58 +723,52 @@ background-color: #f0e9e9;
 }
 
 .book-details-modal h2 {
-  color: #4A90E2; /* Primary: Slate Blue */
+  color: #4A90E2;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .book-details-modal p {
   margin-bottom: 15px;
-  color: #2E2E2E; /* Text: Dark Charcoal */
-  line-height: 1.6;
+  color: #2E2E2E;
+}
+
+/* Specific style for the description paragraph */
+.book-details-modal p:not(.modal-book-author) {
+  line-height: 1.6; /* Adds gap between lines */
+  text-align: left; /* Ensures left alignment */
+  margin-bottom: 30px; /* Changed from 15px to 10px */
 }
 
 .modal-buttons {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
+  flex-direction: column;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
-  width: 40%; /* Consistent width */
+  width: 40%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
 }
 
 .modal-buttons button {
-  padding: 12px 16px; /* Increased padding for larger buttons */
+  padding: 12px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1em; /* Slightly larger font size */
-  background-color: #4A90E2; /* Primary: Slate Blue */
-  color: #FFFFFF; /* Background: Pure White */
+  font-size: 1em;
+  background-color: #4A90E2;
+  color: #FFFFFF;
   transition: background-color 0.3s ease;
-  width: 100%; /* Full width for consistent button size */
+  width: 100%;
+}
+.modal-book-description {
+  line-height: 1.6;
+  text-align: left;
 }
 
 .modal-buttons button:hover {
-  background-color: #357ABD; /* Darker Slate Blue */
-}
-
-.book-details-modal .close-button {
-  background: #FF6B6B; /* Accent: Soft Coral */
-  color: #FFFFFF; /* Background: Pure White */
-  border: none;
-  padding: 10px 25px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 80%; /* Consistent width */
-  margin: 0 auto;
-}
-
-.book-details-modal .close-button:hover {
-  background-color: #E55A5A; /* Darker Soft Coral */
+  background-color: #357ABD;
 }
 
 @keyframes fadeIn {
@@ -782,8 +781,6 @@ background-color: #f0e9e9;
     transform: translateY(0);
   }
 }
-
-
 /* Contact Page Styles */
 .contact-container {
   max-width: 600px;
@@ -874,59 +871,71 @@ background-color: #f0e9e9;
 .bookmarks-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.bookmarks-list li {
-  padding: 15px 0;
+.bookmark-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
   border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.bookmark-item:hover {
+  background-color: #f9f9f9;
+}
+
+.bookmark-info {
+  flex: 1;
+}
+
+.book-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
   font-size: 1.1em;
-  color: #555;
-  transition: background-color 0.3s ease;
+}
+
+.book-author {
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.remove-bookmark {
+  background: none;
+  border: none;
+  color: #e74c3c;
   cursor: pointer;
+  font-size: 1.1em;
+  padding: 8px;
+  margin-left: 15px;
+  transition: color 0.2s ease;
   display: flex;
   align-items: center;
 }
 
-.bookmarks-list li:last-child {
-  border-bottom: none;
+.remove-bookmark:hover {
+  background-color: #f8d7da;
 }
 
-.bookmarks-list li:hover {
-  background-color: #f0f8ff;
-}
-
-.book-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.book-title {
-  font-weight: bold;
-  color: #333;
-}
-
-.book-author {
-  font-style: italic;
-  color: #777;
-  font-size: 0.95em;
-}
-
-.bookmark-icon {
-  margin-right: 10px;
-  color: #00acc1;
-  font-size: 1.2em;
-}
-
-.bookmarked {
-  color: #FF6B6B !important;
+.remove-bookmark:focus {
+  outline: none;
 }
 
 .no-bookmarks {
   text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
+  padding: 40px 20px;
   color: #666;
+  font-size: 1.1em;
 }
+
+.no-bookmarks p {
+  margin: 10px 0;
+}
+
 
 .remove-bookmark {
   background-color: #e53e3e;
@@ -939,15 +948,13 @@ background-color: #f0e9e9;
   transition: background-color 0.3s ease;
   margin-left: auto;
 }
-
-.remove-bookmark:hover {
+.remove-bookmark:hover
+{
   background-color: #c53030;
 }
 
-.remove-bookmark:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.5);
-}
+
+
 
 .book-item {
   display: flex;

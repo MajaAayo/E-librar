@@ -1,52 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 
-const BookCard = ({ book }) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+const Bookmarks = () => {
+  const [bookmarks, setBookmarks] = useState([]);
 
   useEffect(() => {
-    if (!book || !book.id) return; // Ensure book and book.id exist
-    const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-    const exists = bookmarks.some(b => b.id === book.id);
-    setIsBookmarked(exists);
-  }, [book]);
+    const storedBookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    setBookmarks(storedBookmarks);
+  }, []);
 
-  const toggleBookmark = () => {
-    if (!book || !book.id) return; // Ensure book and book.id exist
-    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-    
-    if (isBookmarked) {
-      // Remove from bookmarks
-      bookmarks = bookmarks.filter(b => b.id !== book.id);
-    } else {
-      // Add to bookmarks
-      bookmarks = [...bookmarks, book];
-    }
-    
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-    setIsBookmarked(!isBookmarked);
-    
-    // Dispatch storage event to update navbar count
+  const removeBookmark = (bookToRemove) => {
+    const updatedBookmarks = bookmarks.filter(
+      (book) => book.title !== bookToRemove.title
+    );
+    setBookmarks(updatedBookmarks);
+    localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
     window.dispatchEvent(new Event('storage'));
   };
 
-  if (!book) {
-    return <div className="book-card">Invalid book data</div>;
-  }
-
   return (
-    <div className="book-card">
-      <h3>{book.title}</h3>
-      <p>{book.author}</p>
-      <button 
-        onClick={toggleBookmark}
-        className="bookmark-button"
-        aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
-      >
-        {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-      </button>
+    <div className="main-content">
+      <div className="bookmarks-header">
+        <h1>My Bookmarks</h1>
+      </div>
+      
+      {bookmarks.length === 0 ? (
+        <div className="no-bookmarks">
+          <p>No bookmarks yet.</p>
+          <p>Start adding some from the Explore page!</p>
+        </div>
+      ) : (
+        <ul className="bookmarks-list">
+          {bookmarks.map((book, index) => (
+            <li key={index} className="bookmark-item">
+              <div className="bookmark-info">
+                <div className="book-title">{book.title}</div>
+                <div className="book-author">by {book.author}</div>
+              </div>
+              <button
+                className="remove-bookmark"
+                onClick={() => removeBookmark(book)}
+                aria-label={`Remove ${book.title} from bookmarks`}
+              >
+                <FaTrash />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
-export default BookCard;
+export default Bookmarks;
